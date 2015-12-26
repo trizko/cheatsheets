@@ -2,7 +2,18 @@
 Normal postgresql db settings file that will appear in both the master and the replica of a db.
 
 ##### recovery.conf file
-The presence of this file turns on replication. It also has configuration options that can only pertain to a db replica. This file must always be in the $PGDATA directory.
+The presence of this file turns on replication. It also has configuration options that can only pertain to a db replica. This file must always be in the $PGDATA directory. Sample:
+```
+standby_mode = 'on'
+primary_conninfo = 'host=<master_ip> port=5432 user=rep password=yourpassword'
+trigger_file = '/tmp/postgresql.trigger.5432'
+```
+
+##### SQL
+```SQL
+-- Create replication user
+CREATE USER rep REPLICATION LOGIN CONNECTION LIMIT 1 ENCRYPTED PASSWORD 'yourpassword';
+```
 
 ##### General commands
 ```bash
